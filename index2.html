@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+	<script   src="https://code.jquery.com/jquery-3.2.1.min.js"   integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="   crossorigin="anonymous"></script>
+  <style type="text/css">
+    #p1Bank {
+      height: 200px;
+    }
+     #p2Bank {
+      height: 200px;
+    }
+    body, html {
+    height: 100%;
+    } 
+    .bg { 
+    /* The image used */
+    background-image: url("rickmorty.jpg");
+
+    /* Full height */
+    height: 100%; 
+
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+  </style>
+</head>
+<body>
+<div class="bg">
+<div class="row" id="p1Bank">
+	<div class="col-md-4"><img class="bulb" id="p1Char1" src="portalgun.jpg"></div>
+	<div class="col-md-4"><img id="p1Char2" src="portalgun.jpg"></div>
+	<div class="col-md-4"><img id="p1Char3" src="portalgun.jpg"></div>
+</div>
+
+<br>
+
+<div class="row" id="p1Char">
+	<div class="col-md-3">	</div>
+	<div id="p1Select" class="col-md-3"></div><!-- player's pokemon will apprear here -->
+<!-- player side pokemon -->	
+	<div id="legend1" class="col-md-3">	</div><!-- shows heathpoints and hitpoints -->
+	<div class="col-md-3">	</div>
+</div>
+
+<br>
+
+<div class="row" id="battleGround"><!-- battleground -->	
+	<div id="playerHealth" class="col-md-3"></div><!-- Blank space -->
+	<div class="col-md-3"><p><button id="attack" type="button" class="btn btn-primary btn-lg">Fight!</button></p></div>		
+
+	<div id="resetButton" class="col-md-3"><!-- <p><button type="button" class="btn btn-default btn-lg">Block!</button></p> --></div>	  
+	<div class="col-md-3"></div><!-- Blank space -->	
+</div><!-- battleground -->	
+	
+<br>
+
+<div class="row" id="p2Char">
+	<div class="col-md-3"></div>
+	<div id="legend2" class="col-md-3"></div><!-- enmey shows heathpoints and hitpoints -->
+<!-- enemy side pokemon -->
+	<div id="p2Select" class="col-md-3"></div><!-- enemy pokemon will appear here -->
+	<div class="col-md-3"><p id="demo"></p>	</div>
+</div>
+
+<br>
+
+<div class="row" id="p2Bank">
+	<div class="col-md-4"><img id="p2Char1" src="portalgun.jpg"></div>
+	<div class="col-md-4"><img id="p2Char2" src="portalgun.jpg"></div>
+	<div class="col-md-4"><img id="p2Char3" src="portalgun.jpg"></div>	
+</div>
+
+</div>
+
+<script type="text/javascript">
+
+	var p1Bank = ["cronenmorty.png", "evilmorty.jpg", "morty.jpg", "cronenrick.jpg", "tinyrick.png","rick.png"];
+
+
+	function pokePick(name,healthPoint,hitPoint,battlePoints){
+		this.pokeName = name;
+		this.pokeHealthPoint = healthPoint;
+		this.pokeHitPoint = hitPoint;
+    this.pokeBattlePoint = battlePoints;
+ 	}
+
+	var bulbasaur = new pokePick(p1Bank[0], 200, 1, [4,5,6]);
+	var charmander = new pokePick(p1Bank[1],150, 7, [0,1,2,3,4,8,10]);
+	var ekans = new pokePick(p1Bank[2],120, 4, [2,2,3,3,4,7,12]);
+	var pikachu = new pokePick(p1Bank[3],125, 5, [3,4,6,7,8]);
+	var sandshrew = new pokePick(p1Bank[4],175, 3, [3,4,5,6,7,8,9]);
+	var squirtle = new pokePick(p1Bank[5],160, 2, [1,1,2,3,4,4,5,6]);
+
+  var player1;
+  var player2;
+
+  
+
+  
+
+
+  // bulbasaur.pokeBattlePoints[Math.floor(Math.random() * bulbasaur.pokeBattlePoints.length)]
+
+ $("#attack").on("click", function(){
+
+    player1.pokeHitPoint += player1.pokeBattlePoint[Math.floor(Math.random() * player1.pokeBattlePoint.length)];
+    player2.pokeHitPoint += player2.pokeBattlePoint[Math.floor(Math.random() * player2.pokeBattlePoint.length)];
+    player1.pokeHealthPoint -= player2.pokeHitPoint;
+    player2.pokeHealthPoint -= player1.pokeHitPoint;
+
+    console.log(player2.pokeHitPoint);
+
+
+    $('#p1CharHealth').html(player1.pokeHealthPoint);
+    $('#p2CharHealth').html(player2.pokeHealthPoint);
+    $('#p1CharHit').html(player1.pokeHitPoint);
+    $('#p2CharHit').html(player2.pokeHitPoint);
+
+    if (player1.pokeHealthPoint <= 0) {
+      $('#legend1').empty();
+      $('#p1Select').empty();
+      player1.pokeBattlePoint = null;
+      
+    }
+
+    if (player2.pokeHealthPoint <= 0) {
+    
+      $('#legend2').empty();
+      $('#p2Select').empty();
+      player2.pokeBattlePoint = null;
+     
+
+    }
+
+
+
+
+    if (player1.pokeHealthPoint <= 0 && player2.pokeHealthPoint <= 0){
+      $("#resetButton").empty();
+      $("#resetButton").append("<p><button type='button' class='btn btn-default btn-lg'>Play Again?</button></p>");
+       $("#resetButton").click(function() {
+        location.reload();
+        });
+    }
+
+ });
+
+	$(document).ready(function(){
+
+    	$("#p1Char1").click(function(){
+        player1 = bulbasaur;
+    		$("#p1Select").empty();
+      		$(this).hide();
+      		$("#p1Select").append("<img id='pokemon1Appear' src='" + bulbasaur.pokeName + "'>");
+      		$("#legend1").empty();
+      		$("#legend1").append("<h1>Health Points</h1>" + "<h3 id='p1CharHealth'>" + bulbasaur.pokeHealthPoint + "</h3>" + "<h1>Hit Points</h1>" +  "<h3 id='p1CharHit'>" + bulbasaur.pokeHitPoint + "</h3>");
+    	});
+
+    	$("#p1Char2").click(function(){
+        player1 = charmander;
+    		$("#p1Select").empty();
+      		$(this).hide();
+      		$("#p1Select").append("<img id='pokemon1Appear' src='" + charmander.pokeName + "'>");
+      		$("#legend1").empty();
+      		$("#legend1").append("<h1>Health Points</h1>" +  "<h3 id='p1CharHealth'>" + charmander.pokeHealthPoint + "</h3>" + "<h1>Hit Points</h1>" + "<h3 id='p1CharHit'>" + charmander.pokeHitPoint + "</h3>");
+    	});
+
+    	$("#p1Char3").click(function(){
+        player1 = ekans;
+    		$("#p1Select").empty();
+      		$(this).hide();
+      		$("#p1Select").append("<img id='pokemon1Appear' src='" + ekans.pokeName + "'>");
+      		$("#legend1").empty();
+      		$("#legend1").append("<h1>Health Points</h1>" + "<h3 id='p1CharHealth'>" + ekans.pokeHealthPoint + "</h3>" + "<h1>Hit Points</h1>" + "<h3 id='p1CharHit'>" + ekans.pokeHitPoint + "</3>");
+
+    	});
+
+//enemy Side
+    	$("#p2Char1").click(function(){
+        player2 = pikachu
+    		$("#p2Select").empty();
+      		$(this).hide();
+      		$("#p2Select").append("<img id='pokemon2Appear' src='" + pikachu.pokeName + "'>");
+      		$("#legend2").empty();
+      		$("#legend2").append("<h1>Health Points</h1>" + "<h3 id='p2CharHealth'>" + pikachu.pokeHealthPoint + "</h3>" + "<h1>Hit Points</h1>" + "<h3 id='p2CharHit'>" + pikachu.pokeHitPoint + "</h3>");
+    	});
+
+    	$("#p2Char2").click(function(){
+          player2 = sandshrew;
+    		$("#p2Select").empty();
+      		$(this).hide();
+      		$("#p2Select").append("<img id='pokemon2Appear' src='" + sandshrew.pokeName + "'>");
+      		$("#legend2").empty();
+      		$("#legend2").append("<h1>Health Points</h1>" + "<h2 id='p2CharHealth'>" + sandshrew.pokeHealthPoint + "</h3>" + "<h1>Hit Points</h1>" + "<h3 id='p2CharHit'>" + sandshrew.pokeHitPoint + "</h3>");
+    	});
+
+    	$("#p2Char3").click(function(){
+         player2 = squirtle;
+    		$("#p2Select").empty();
+      		$(this).hide();
+      		$("#p2Select").append("<img id='pokemon2Appear' src='" + squirtle.pokeName + "'>");
+      		$("#legend2").empty();
+      		$("#legend2").append("<h1>Health Points</h1>" + "<h2 id='p2CharHealth'>" + squirtle.pokeHealthPoint + "</h3>" + "<h1>Hit Points</h1>" + "<h3 id='p2CharHit'>" + squirtle.pokeHitPoint + "</h3>");
+    	});
+
+
+
+	}); // .ready closer
+
+</script>
+
+</body>
+</html>
