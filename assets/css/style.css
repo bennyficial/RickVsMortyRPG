@@ -1,0 +1,27 @@
+#p1Bank {
+      height: 200px;
+    }
+     #p2Bank {
+      height: 300px;
+    }
+    .clear {
+      z-index: -1;
+    }
+    /*#misc {
+      height: 200px;
+      background-color: transparent;
+    }*/
+    /*body, html {
+    height: 100%;
+    } */
+    .bg { 
+    /* The image used */
+    background-image: url("../images/rickmorty.jpg");
+
+    /* Full height */
+    height: 100%; 
+
+    /* Center and scale the image nicely */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
